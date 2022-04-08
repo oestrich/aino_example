@@ -1,5 +1,6 @@
 defmodule Example.Web.Layout do
   alias Aino.Token
+  alias Aino.Session
 
   require Aino.View
 

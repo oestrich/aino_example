@@ -7,7 +7,8 @@ defmodule Example.Config do
          env([
            {:environment, "DEPLOY_ENV", default: "development"},
            {:port, "PORT", default: 4000, map: &String.to_integer/1},
-           {:host, "HOST", default: "localhost"}
+           {:host, "HOST", default: "localhost"},
+           {:session_salt, "SESSION_SALT"}
          ])
 
   config :database,

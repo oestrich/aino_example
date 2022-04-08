@@ -11,15 +11,24 @@ defmodule Example.Web.Handler do
 
   @impl true
   def handle(token) do
+    session_config = %Aino.Session.Cookie{
+      key: "_example",
+      salt: token.config.session_salt
+    }
+
     middleware = [
       Aino.Middleware.common(),
       &Aino.Middleware.assets/1,
       &Aino.Middleware.Development.recompile/1,
+      &Aino.Session.config(&1, session_config),
+      &Aino.Session.decode/1,
+      &Aino.Session.Flash.load/1,
       &Aino.Middleware.Routes.routes(&1, routes()),
       &Aino.Middleware.Routes.match_route/1,
       &Aino.Middleware.params/1,
       &Aino.Middleware.Routes.handle_route/1,
       &Example.Web.Layout.wrap/1,
+      &Aino.Session.encode/1,
       &Aino.Middleware.logging/1
     ]
 

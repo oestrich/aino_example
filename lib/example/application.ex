@@ -25,14 +25,19 @@ defmodule Example.Application do
   defp aino(config) do
     case config.environment != "test" do
       true ->
+        simple_config = %{
+          session_salt: config.session_salt
+        }
+
         [
           {Aino,
            callback: Example.Web.Handler,
            otp_app: :example,
            port: config.port,
            host: config.host,
-           environment: config.environment},
-          {Aino.Watcher, name: Tapio.Watcher, watchers: watchers(config.environment)}
+           environment: config.environment,
+           config: simple_config},
+          {Aino.Watcher, name: Example.Web.Watcher, watchers: watchers(config.environment)}
         ]
 
       false ->
